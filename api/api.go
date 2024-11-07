@@ -22,6 +22,8 @@ type Routes struct {
 
 var router = []Routes{
 	{"/users", []func(*gin.RouterGroup, *gorm.DB){getUsers}},
+	{"/gifts", []func(*gin.RouterGroup, *gorm.DB){createGift}},
+	{"/rank", []func(*gin.RouterGroup, *gorm.DB){getRanks}},
 }
 
 func RunServer(db *gorm.DB) {

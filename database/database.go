@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB_URL = "root:12112004@tcp(127.0.0.1:3306)/Elearning?charset=utf8mb4&parseTime=True&loc=Local"
+var DB_URL = "root:12112004@tcp(127.0.0.1:3306)/ecommerce?charset=utf8mb4&parseTime=True&loc=Local"
 var DB_ECOMMERCE = "ecommerce"
 
 var (
@@ -42,9 +42,11 @@ func GetDB() *gorm.DB {
 
 func Migration() (*gorm.DB, error) {
 	db := GetDB()
-	db.Exec("CREATE SCHEMA IF NOT EXISTS ELEARNING;")
+	db.Exec("CREATE SCHEMA IF NOT EXISTS ECOMMERCE;")
 	tables := []interface{}{
 		&UserResponse{},
+		&GiftResponse{},
+		&RankResponse{},
 	}
 	for _, table := range tables {
 		err := db.AutoMigrate(table)

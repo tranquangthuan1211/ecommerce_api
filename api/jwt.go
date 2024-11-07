@@ -64,39 +64,42 @@ var getAuthMiddleware = func(db *gorm.DB) (*jwt.GinJWTMiddleware, error) {
 			user := database.UserResponse{}
 			err := (func() error {
 
-				err := db.Raw(`select * from users where email=? and deleted_at is null`,
+				err := db.Raw(`select * from users where email=?`,
 					req.Email).Scan(&user).Error
 				if err != nil {
 					return err
 				}
 
-				// if user.ID == "" {
-				// 	teach := database.Teacher{}
-				// 	err = db.Debug().Table("teacher").Where("email=?", req.Email).First(&teach).Error
+				if user.ID == "" {
+					client := database.ClientResponse{}
+					err = db.Debug().Table("client").Where("email=?", req.Email).First(&client).Error
 
-				// 	if err != nil {
-				// 		return err
-				// 	}
+					if err != nil {
+						return err
+					}
 
-				// 	if teach.ID == "" {
-				// 		return errors.New("tài khoản không tồn tại")
-				// 	}
-				// 	user := database.Register{
-				// 		ID:           teach.ID,
-				// 		Last_Name:    teach.Last_Name,
-				// 		First_Name:   teach.First_Name,
-				// 		Hire_date:    teach.Hire_date,
-				// 		Email:        teach.Email,
-				// 		Major:        teach.Major,
-				// 		Phone_number: teach.Phone_number,
-				// 	}
-				// 	result := db.Table("USERS").Create(&user)
-				// 	if result.Error != nil {
-				// 		return errors.New("tạo tài khoản giáo viên không thành công " + result.Error.Error())
-				// 	}
-				// }
+					if client.ID == "" {
+						return errors.New("tài khoản không tồn tại")
+					}
+					user := database.Register{
+						ID:       client.ID,
+						Username: client.ClientName,
+						Email:    client.Email,
+						Password: client.Password,
+						Phone:    client.Phone,
+						Address:  client.Address,
+						Birthday: client.Birthday,
+						JoinedAt: client.JoinedAt,
+						Gift:     client.Gift,
+						Role:     "client",
+					}
+					result := db.Table("users").Create(&user)
+					if result.Error != nil {
+						return errors.New("tạo tài khoản client không thành công " + result.Error.Error())
+					}
+				}
 				user = database.UserResponse{}
-				db.Debug().Raw(`select * from users where email=? and password=? and deleted_at is null`,
+				db.Debug().Raw(`select * from users where email=? and password=?`,
 					req.Email, req.Password).Scan(&user)
 
 				if user.ID == "" {
@@ -122,13 +125,6 @@ var getAuthMiddleware = func(db *gorm.DB) (*jwt.GinJWTMiddleware, error) {
 				Data:   user,
 			})
 		},
-		// Authorizator: func(data interface{}, c *gin.Context) bool {
-		// 	// if v, ok := data.(*User); ok && v.UserName == "admin" {
-		// 	// 	return true
-		// 	// }
-
-		// 	return true
-		// },
 		Unauthorized: func(c *gin.Context, code int, message string) {
 			c.JSON(code, gin.H{
 				"code":    code,
