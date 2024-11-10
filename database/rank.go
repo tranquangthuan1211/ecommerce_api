@@ -1,7 +1,8 @@
 package database
 
 type Rank struct {
-	Name string `json:"name" example:"DIAMOND"`
+	Name   string `json:"name" example:"DIAMOND"`
+	Coupon string `json:"coupon" example:"DIAMOND10"`
 	BaseModel
 }
 
