@@ -90,7 +90,6 @@ var getAuthMiddleware = func(db *gorm.DB) (*jwt.GinJWTMiddleware, error) {
 						Address:  client.Address,
 						Birthday: client.Birthday,
 						JoinedAt: client.JoinedAt,
-						Gift:     client.Gift,
 						Role:     "client",
 					}
 					result := db.Table("users").Create(&user)

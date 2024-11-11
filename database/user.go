@@ -10,7 +10,6 @@ type UserBaseData struct {
 	JoinedAt string `json:"joined_at" example:"2005-08-15T15:52:01+00:00"`
 	Role     string `json:"role" example:"admin"`
 	Rank     string `json:"rank" example:"1"`
-	Gift     string `json:"gift" example:"0"`
 	BaseModel
 }
 type UserResponse struct {
@@ -32,7 +31,6 @@ type Register struct {
 	JoinedAt string `json:"joined_at" example:"2005-08-15T15:52:01+00:00"`
 	Role     string `json:"role" example:"admin"`
 	Rank     string `json:"rank" example:"1"`
-	Gift     string `json:"gift" example:"0"`
 	BaseModel
 }
 type LoginResponse struct {
