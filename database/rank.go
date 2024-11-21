@@ -13,7 +13,10 @@ type RankResponse struct {
 }
 
 type RankUpdate struct {
-	Name string `json:"name" example:"DIAMOND"`
+	Name             string `json:"name" example:"DIAMOND"`
+	Coupon           string `json:"coupon" example:"DIAMOND10"`
+	Conditions_apply string `json:"conditions_apply" example:"10"`
+	BaseModel
 }
 
 func (RankResponse) TableName() string {

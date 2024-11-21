@@ -47,6 +47,10 @@ func Migration() (*gorm.DB, error) {
 		&UserResponse{},
 		&GiftResponse{},
 		&RankResponse{},
+		&SaleResponse{},
+		&ProductResponse{},
+		&CategoryResponse{},
+		&DetailSaleResponse{},
 	}
 	for _, table := range tables {
 		err := db.AutoMigrate(table)
