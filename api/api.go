@@ -22,13 +22,14 @@ type Routes struct {
 
 var router = []Routes{
 	{"/users", []func(*gin.RouterGroup, *gorm.DB){getUsers, getUserByID, updateUser, deleteUser}},
-	{"carts", []func(*gin.RouterGroup, *gorm.DB){getCart, createCart}},
+	{"carts", []func(*gin.RouterGroup, *gorm.DB){getCart, createCart, updateCart, deleteCart}},
 	{"/gifts", []func(*gin.RouterGroup, *gorm.DB){getGifts, createGift, getGiftForUser, updateGift, deleteGift}},
 	{"/ranks", []func(*gin.RouterGroup, *gorm.DB){getRanks, createRank, updateRank, deleteRank}},
 	{"/products", []func(*gin.RouterGroup, *gorm.DB){getProducts, getproductByID, createProduct, updateProduct}},
-	{"/categories", []func(*gin.RouterGroup, *gorm.DB){createCategory}},
+	{"/categories", []func(*gin.RouterGroup, *gorm.DB){createCategory, getCategories, getCategoryByID}},
 	{"/detail_sales", []func(*gin.RouterGroup, *gorm.DB){createDetailSale}},
 	{"/sales", []func(*gin.RouterGroup, *gorm.DB){createSale, getSale, updateSale, deleteSale}},
+	{"/order_companies", []func(*gin.RouterGroup, *gorm.DB){getOrderCompany}},
 }
 
 func RunServer(db *gorm.DB) {

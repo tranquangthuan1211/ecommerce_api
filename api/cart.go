@@ -49,3 +49,46 @@ func createCart(router *gin.RouterGroup, db *gorm.DB) {
 		})
 	})
 }
+func updateCart(router *gin.RouterGroup, db *gorm.DB) {
+	router.PATCH("/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		req := &database.CartDataBase{}
+		if err := c.ShouldBindJSON(req); err != nil {
+			c.JSON(400, gin.H{
+				"error": "Invalid input: " + err.Error(),
+			})
+			return
+		}
+		err := CheckInputError(req)
+		if err != nil {
+			returnError(c, 400, err.Error())
+			return
+		}
+		result := db.Table("carts").Where("id = ?", id).Updates(req)
+		if result.Error != nil {
+			c.JSON(500, gin.H{
+				"error": "Failed to update cart",
+			})
+			return
+		}
+		c.JSON(200, gin.H{
+			"message": "Cart updated successfully",
+			"data":    req,
+		})
+	})
+}
+func deleteCart(router *gin.RouterGroup, db *gorm.DB) {
+	router.DELETE("/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		result := db.Table("carts").Where("id = ?", id).Delete(&database.CartDataBase{})
+		if result.Error != nil {
+			c.JSON(500, gin.H{
+				"error": "Failed to delete cart",
+			})
+			return
+		}
+		c.JSON(200, gin.H{
+			"message": "Cart deleted successfully",
+		})
+	})
+}

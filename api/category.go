@@ -8,6 +8,37 @@ import (
 	"gorm.io/gorm"
 )
 
+func getCategories(router *gin.RouterGroup, db *gorm.DB) {
+	router.GET("/", func(c *gin.Context) {
+		var categories []database.CategoryResponse
+		result := db.Table("categories").Find(&categories)
+		if result.Error != nil {
+			c.JSON(500, gin.H{
+				"error": "Failed to get categories",
+			})
+			return
+		}
+		c.JSON(200, gin.H{
+			"data": categories,
+		})
+	})
+}
+func getCategoryByID(router *gin.RouterGroup, db *gorm.DB) {
+	router.GET("/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		var category database.CategoryResponse
+		result := db.Table("categories").Where("id = ?", id).First(&category)
+		if result.Error != nil {
+			c.JSON(500, gin.H{
+				"error": "Failed to get category",
+			})
+			return
+		}
+		c.JSON(200, gin.H{
+			"data": category,
+		})
+	})
+}
 func createCategory(router *gin.RouterGroup, db *gorm.DB) {
 	router.POST("/", func(c *gin.Context) {
 		req := &database.CategoryResponse{}
