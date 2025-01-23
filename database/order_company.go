@@ -2,6 +2,7 @@ package database
 
 type OrderCompany struct {
 	ID_COMPANY string `json:"id_company" example:"1"`
+	ID_PRODUCT string `json:"id_product" example:"1"`
 	QUANTITY   int    `json:"quantity" example:"1"`
 	PRICE      int    `json:"price" example:"100000"`
 	STATUS     string `json:"status" example:"pending"`

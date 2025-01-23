@@ -29,7 +29,9 @@ var router = []Routes{
 	{"/categories", []func(*gin.RouterGroup, *gorm.DB){createCategory, getCategories, getCategoryByID}},
 	{"/detail_sales", []func(*gin.RouterGroup, *gorm.DB){createDetailSale}},
 	{"/sales", []func(*gin.RouterGroup, *gorm.DB){createSale, getSale, updateSale, deleteSale}},
-	{"/order_companies", []func(*gin.RouterGroup, *gorm.DB){getOrderCompany}},
+	{"/order_companies", []func(*gin.RouterGroup, *gorm.DB){getOrderCompany, createOrderCompany, updateOrderCompany}},
+	{"/orders", []func(*gin.RouterGroup, *gorm.DB){getOrder, getCategoryByID, createOrder}},
+	{"/feedbacks", []func(*gin.RouterGroup, *gorm.DB){getFeedBack, getFeedBackByID, createFeedBack, updateFeedBack, deleteFeedBack}},
 }
 
 func RunServer(db *gorm.DB) {
